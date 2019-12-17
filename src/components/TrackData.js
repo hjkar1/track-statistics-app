@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import queryString from 'query-string';
 import { Redirect } from 'react-router-dom';
-import { fetchAudioFeatures } from '../service';
+import { getUsersTopTracks, getAudioFeatures } from '../service';
+import PieChart from './visualization/PieChart';
+import BarChart from './visualization/BarChart';
+import { getModes, getAverages } from '../utils';
+import Container from './Container';
 
 const TrackData = ({ location }) => {
-  //const [trackData, setTrackData] = useState([]);
+  const [trackData, setTrackData] = useState(null);
 
   const hash = queryString.parse(location.hash);
 
@@ -15,12 +19,13 @@ const TrackData = ({ location }) => {
   }, [hash]);
 
   useEffect(() => {
-    const getAudioFeatures = async () => {
-      const audioFeatures = await fetchAudioFeatures();
-      console.log(audioFeatures);
+    const fetchAudioFeatures = async () => {
+      const trackIds = await getUsersTopTracks();
+      const audioFeatures = await getAudioFeatures(trackIds);
+      setTrackData(audioFeatures);
     };
     if (localStorage.getItem('authToken')) {
-      getAudioFeatures();
+      fetchAudioFeatures();
     }
   }, [hash]);
 
@@ -28,7 +33,16 @@ const TrackData = ({ location }) => {
     return <Redirect to="/authorize" />;
   }
 
-  return <div></div>;
+  return (
+    <Container>
+      {trackData && (
+        <div>
+          <PieChart data={getModes(trackData)} />
+          <BarChart data={getAverages(trackData)} />
+        </div>
+      )}
+    </Container>
+  );
 };
 
 export default TrackData;
