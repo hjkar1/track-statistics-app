@@ -1,41 +1,55 @@
-import { getAuthHeader } from './utils';
+import axios from 'axios';
+import { getAuthHeaderConfig } from './utils';
 
-const authHeader = getAuthHeader();
+const config = getAuthHeaderConfig();
 
-export const getUsersTopTracks = async () => {
+const getUsersTopTracks = async () => {
   let trackIds = null;
-  const options = { method: 'GET', headers: authHeader };
 
   try {
-    const response = await fetch(
+    const result = await axios.get(
       'https://api.spotify.com/v1/me/top/tracks?limit=50',
-      options
+      config
     );
-    const result = await response.json();
-    const tracks = result.items;
+
+    const tracks = result.data.items;
     trackIds = tracks.map(track => track.id);
   } catch (error) {
     console.log(error);
+    const errorJSON = error.toJSON();
+
+    if (errorJSON.message === 'Request failed with status code 401') {
+      return '401';
+    }
   }
   return trackIds;
 };
 
-export const getAudioFeatures = async trackIdList => {
+export const getAudioFeatures = async () => {
+  const trackIdList = await getUsersTopTracks();
+  if (!trackIdList) {
+    return;
+  }
+  if (trackIdList === '401') {
+    return 'redirect';
+  }
+
   let audioFeatures = null;
   const trackIds = trackIdList.join(',');
 
   try {
-    const response = await fetch(
+    const result = await axios.get(
       `https://api.spotify.com/v1/audio-features/?ids=${trackIds}`,
-      {
-        method: 'GET',
-        headers: authHeader
-      }
+      config
     );
-    const result = await response.json();
-    audioFeatures = result.audio_features;
+    audioFeatures = result.data.audio_features;
   } catch (error) {
     console.log(error);
+    const errorJSON = error.toJSON();
+
+    if (errorJSON.message === 'Request failed with status code 401') {
+      return 'redirect';
+    }
   }
   return audioFeatures;
 };
