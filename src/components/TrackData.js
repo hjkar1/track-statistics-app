@@ -46,7 +46,9 @@ const TrackData = ({ history, location }) => {
         <Fragment>
           <div style={{ margin: '1.5rem' }}>Modes of your top tracks:</div>
           <PieChart data={getModes(trackData)} />
-          <div style={{ margin: '1.5rem' }}>Feature averages of your top tracks:</div>
+          <div style={{ margin: '1.5rem' }}>
+            Feature averages of your top tracks:
+          </div>
           <BarChart data={getAverages(trackData)} />
         </Fragment>
       )}
