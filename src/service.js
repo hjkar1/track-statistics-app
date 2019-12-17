@@ -2,7 +2,7 @@ import { getAuthHeader } from './utils';
 
 const authHeader = getAuthHeader();
 
-const getUsersTopTracks = async () => {
+export const getUsersTopTracks = async () => {
   let trackIds = null;
   const options = { method: 'GET', headers: authHeader };
 
@@ -20,16 +20,22 @@ const getUsersTopTracks = async () => {
   return trackIds;
 };
 
-export const fetchAudioFeatures = async () => {
-  const trackIdList = await getUsersTopTracks();
+export const getAudioFeatures = async trackIdList => {
+  let audioFeatures = null;
   const trackIds = trackIdList.join(',');
-  const response = await fetch(
-    `https://api.spotify.com/v1/audio-features/?ids=${trackIds}`,
-    {
-      method: 'GET',
-      headers: authHeader
-    }
-  );
-  const result = await response.json();
-  return result.audio_features;
+
+  try {
+    const response = await fetch(
+      `https://api.spotify.com/v1/audio-features/?ids=${trackIds}`,
+      {
+        method: 'GET',
+        headers: authHeader
+      }
+    );
+    const result = await response.json();
+    audioFeatures = result.audio_features;
+  } catch (error) {
+    console.log(error);
+  }
+  return audioFeatures;
 };
