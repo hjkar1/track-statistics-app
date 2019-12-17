@@ -21,7 +21,7 @@ const LinkButton = styled.a`
 const Login = () => {
   return (
     <Container>
-      <div style={{ margin: '1rem' }}>Login with your Spotify account</div>
+      <div style={{ margin: '1rem' }}>Login with your Spotify account.</div>
       <LinkButton
         href={`https://accounts.spotify.com/authorize?client_id=${clientID}&redirect_uri=${callbackURI}&scope=user-read-private%20user-read-email%20user-top-read&response_type=token&state=123`}
       >
