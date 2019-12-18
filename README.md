@@ -1,3 +1,7 @@
+This app enables Spotify users viewing the [audio feature](https://developer.spotify.com/documentation/web-api/reference/tracks/get-several-audio-features/) statistics of their [top tracks](https://developer.spotify.com/documentation/web-api/reference/personalization/get-users-top-artists-and-tracks/). The authorization is done by logging in with a Spotify account and receiving a temporary [access token](https://developer.spotify.com/documentation/general/guides/authorization-guide/#implicit-grant-flow).
+
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
