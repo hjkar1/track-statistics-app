@@ -4,8 +4,20 @@ import { Redirect } from 'react-router-dom';
 import { getAudioFeatures } from '../service';
 import PieChart from './visualization/PieChart';
 import BarChart from './visualization/BarChart';
-import { getModes, getAverages } from '../utils';
+import { getModes, getAverages, logout } from '../utils';
 import Container from './Container';
+import styled from 'styled-components';
+
+const Button = styled.button`
+  background-color: green;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  margin: 1rem;
+  padding: 0.5rem;
+  text-align: center;
+  text-decoration: none;
+`;
 
 const TrackData = ({ history, location }) => {
   const [trackData, setTrackData] = useState(null);
@@ -35,6 +47,11 @@ const TrackData = ({ history, location }) => {
     return <Redirect to="/authorize" />;
   }
 
+  const handleLogout = () => {
+    logout();
+    history.push('/authorize');
+  };
+
   return (
     <Container>
       {trackData && (
@@ -45,6 +62,7 @@ const TrackData = ({ history, location }) => {
             Feature averages of your top tracks:
           </div>
           <BarChart data={getAverages(trackData)} />
+          <Button onClick={handleLogout}>Logout</Button>
         </Fragment>
       )}
     </Container>
