@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { getAudioFeatures } from '../service';
 import PieChart from './visualization/PieChart';
 import BarChart from './visualization/BarChart';
-import { getModes, getAverages, logout } from '../utils';
+import { getModes, getAverages, getAverageTempo, logout } from '../utils';
 import Container from './Container';
 import styled from 'styled-components';
 
@@ -13,7 +13,6 @@ const Button = styled.button`
   border: none;
   border-radius: 4px;
   color: white;
-  margin: 1rem;
   padding: 0.5rem;
   text-align: center;
   text-decoration: none;
@@ -62,6 +61,10 @@ const TrackData = ({ history, location }) => {
             Feature averages of your top tracks:
           </div>
           <BarChart data={getAverages(trackData)} />
+          <div style={{ margin: '1.5rem' }}>
+            Average tempo of your top tracks: {getAverageTempo(trackData)} beats
+            per minute
+          </div>
           <Button onClick={handleLogout}>Logout</Button>
         </Fragment>
       )}
