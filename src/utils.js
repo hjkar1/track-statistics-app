@@ -13,6 +13,8 @@ export const getAuthHeaderConfig = () => {
   return null;
 };
 
+export const logout = () => window.localStorage.removeItem('authToken');
+
 // Return the modes of the tracks as data for react-vis pie chart.
 
 export const getModes = tracks => {
