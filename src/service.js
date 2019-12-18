@@ -1,10 +1,9 @@
 import axios from 'axios';
-import { getAuthHeaderConfig } from './utils';
-
-const config = getAuthHeaderConfig();
+import { getAuthHeaderConfig, logout } from './utils';
 
 const getUsersTopTracks = async () => {
   let trackIds = null;
+  const config = getAuthHeaderConfig();
 
   try {
     const result = await axios.get(
@@ -18,20 +17,22 @@ const getUsersTopTracks = async () => {
     console.log(error);
     const errorJSON = error.toJSON();
 
+    // 401 might be the result of an expired
+    // token -> clear localStorage (log the user out).
+
     if (errorJSON.message === 'Request failed with status code 401') {
-      return '401';
+      logout();
     }
   }
   return trackIds;
 };
 
 export const getAudioFeatures = async () => {
+  const config = getAuthHeaderConfig();
   const trackIdList = await getUsersTopTracks();
+
   if (!trackIdList) {
     return;
-  }
-  if (trackIdList === '401') {
-    return 'redirect';
   }
 
   let audioFeatures = null;
@@ -47,8 +48,11 @@ export const getAudioFeatures = async () => {
     console.log(error);
     const errorJSON = error.toJSON();
 
+    // 401 might be the result of an expired
+    // token -> clear localStorage (log the user out).
+
     if (errorJSON.message === 'Request failed with status code 401') {
-      return 'redirect';
+      logout();
     }
   }
   return audioFeatures;

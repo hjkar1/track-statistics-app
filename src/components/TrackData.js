@@ -21,11 +21,6 @@ const TrackData = ({ history, location }) => {
   useEffect(() => {
     const fetchAudioFeatures = async () => {
       const audioFeatures = await getAudioFeatures();
-
-      if (audioFeatures === 'redirect') {
-        history.push('/authorize');
-      }
-
       if (audioFeatures) {
         setTrackData(audioFeatures);
       }
