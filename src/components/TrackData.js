@@ -41,7 +41,7 @@ const TrackData = ({ history, location }) => {
     if (localStorage.getItem('authToken')) {
       fetchAudioFeatures();
     }
-  }, [history]);
+  }, []);
 
   if (!localStorage.getItem('authToken') && !hash.access_token) {
     return <Redirect to="/authorize" />;
