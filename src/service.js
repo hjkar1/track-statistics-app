@@ -14,13 +14,9 @@ const getUsersTopTracks = async () => {
     const tracks = result.data.items;
     trackIds = tracks.map(track => track.id);
   } catch (error) {
-    console.log(error);
-    const errorJSON = error.toJSON();
-
     // 401 might be the result of an expired
     // token -> clear localStorage (log the user out).
-
-    if (errorJSON.message === 'Request failed with status code 401') {
+    if (error.response.status === 401) {
       logout();
     }
   }
@@ -45,13 +41,9 @@ export const getAudioFeatures = async () => {
     );
     audioFeatures = result.data.audio_features;
   } catch (error) {
-    console.log(error);
-    const errorJSON = error.toJSON();
-
     // 401 might be the result of an expired
     // token -> clear localStorage (log the user out).
-
-    if (errorJSON.message === 'Request failed with status code 401') {
+    if (error.response.status === 401) {
       logout();
     }
   }
