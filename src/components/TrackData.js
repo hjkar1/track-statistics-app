@@ -3,7 +3,7 @@ import queryString from 'query-string';
 import { Redirect } from 'react-router-dom';
 import PieChart from './visualization/PieChart';
 import BarChart from './visualization/BarChart';
-import { login, logout } from '../utils/auth';
+import { authToken, login, logout } from '../utils/auth';
 import { getModes, getAverages, getAverageTempo } from '../utils/audioFeatures';
 import Container from './Container';
 import styled from 'styled-components';
@@ -30,9 +30,12 @@ const TrackData = ({ history, location }) => {
       login(hash.access_token);
       setAuth(true);
     }
+    if (authToken) {
+      setAuth(true);
+    }
   }, [hash]);
 
-  if (!auth && !hash.access_token) {
+  if (!authToken && !hash.access_token) {
     return <Redirect to="/authorize" />;
   }
 
