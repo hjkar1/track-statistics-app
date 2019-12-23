@@ -1,12 +1,13 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import queryString from 'query-string';
 import { Redirect } from 'react-router-dom';
-import { getAudioFeatures } from '../service';
 import PieChart from './visualization/PieChart';
 import BarChart from './visualization/BarChart';
-import { getModes, getAverages, getAverageTempo, logout } from '../utils';
+import { login, logout } from '../utils/auth';
+import { getModes, getAverages, getAverageTempo } from '../utils/audioFeatures';
 import Container from './Container';
 import styled from 'styled-components';
+import useService from '../useService';
 
 const Button = styled.button`
   background-color: green;
@@ -19,30 +20,19 @@ const Button = styled.button`
 `;
 
 const TrackData = ({ history, location }) => {
-  const [trackData, setTrackData] = useState(null);
+  const [auth, setAuth] = useState(false);
+  const { status, trackData } = useService(auth);
 
   const hash = queryString.parse(location.hash);
 
   useEffect(() => {
     if (hash.access_token) {
-      localStorage.setItem('authToken', hash.access_token);
+      login(hash.access_token);
+      setAuth(true);
     }
   }, [hash]);
 
-  useEffect(() => {
-    const fetchAudioFeatures = async () => {
-      const audioFeatures = await getAudioFeatures();
-      if (audioFeatures) {
-        setTrackData(audioFeatures);
-      }
-    };
-
-    if (localStorage.getItem('authToken')) {
-      fetchAudioFeatures();
-    }
-  }, []);
-
-  if (!localStorage.getItem('authToken') && !hash.access_token) {
+  if (!auth && !hash.access_token) {
     return <Redirect to="/authorize" />;
   }
 
@@ -50,6 +40,14 @@ const TrackData = ({ history, location }) => {
     logout();
     history.push('/authorize');
   };
+
+  if (status === 'loading') {
+    return <div>Loading...</div>;
+  }
+
+  if (status === 'error') {
+    return <div>Something went wrong :(</div>;
+  }
 
   return (
     <Container>
