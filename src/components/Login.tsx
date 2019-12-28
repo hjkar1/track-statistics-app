@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import styled from 'styled-components';
-import Container from './Container';
+import Container from './ui/Container';
+import LinkButton from './ui/LinkButton';
 
 const clientID = process.env.REACT_APP_CLIENT_ID;
 
@@ -9,15 +9,6 @@ const callbackURI =
   process.env.NODE_ENV === 'production'
     ? process.env.REACT_APP_PROD_URI
     : process.env.REACT_APP_DEV_URI;
-
-const LinkButton = styled.a`
-  background-color: green;
-  border-radius: 4px;
-  color: white;
-  margin: 1rem;
-  padding: 0.5rem;
-  text-decoration: none;
-`;
 
 const Login: FC = () => {
   return (
