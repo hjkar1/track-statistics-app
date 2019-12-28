@@ -5,20 +5,10 @@ import PieChart from './visualization/PieChart';
 import BarChart from './visualization/BarChart';
 import { authToken, login, logout } from '../utils/auth';
 import { getModes, getAverages, getAverageTempo } from '../utils/audioFeatures';
-import Container from './Container';
-import styled from 'styled-components';
+import Container from './ui/Container';
+import Button from './ui/Button';
 import useService from '../useService';
 import { History, Location } from 'history';
-
-const Button = styled.button`
-  background-color: green;
-  border: none;
-  border-radius: 4px;
-  color: white;
-  padding: 0.5rem;
-  text-align: center;
-  text-decoration: none;
-`;
 
 type Props = { history: History, location: Location };
 
@@ -49,11 +39,11 @@ const TrackData: FC<Props> = ({ history, location }) => {
   };
 
   if (status === 'loading') {
-    return <div>Loading...</div>;
+    return <Container>Loading...</Container>;
   }
 
   if (status === 'error') {
-    return <div>Something went wrong :(</div>;
+    return <Container>Something went wrong :(</Container>;
   }
 
   return (
