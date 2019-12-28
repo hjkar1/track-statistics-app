@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { FC, Fragment, useEffect, useState } from 'react';
 import queryString from 'query-string';
 import { Redirect } from 'react-router-dom';
 import PieChart from './visualization/PieChart';
@@ -8,6 +8,7 @@ import { getModes, getAverages, getAverageTempo } from '../utils/audioFeatures';
 import Container from './Container';
 import styled from 'styled-components';
 import useService from '../useService';
+import { History, Location } from 'history';
 
 const Button = styled.button`
   background-color: green;
@@ -19,7 +20,9 @@ const Button = styled.button`
   text-decoration: none;
 `;
 
-const TrackData = ({ history, location }) => {
+type Props = { history: History, location: Location };
+
+const TrackData: FC<Props> = ({ history, location }) => {
   const [auth, setAuth] = useState(false);
   const { status, trackData } = useService(auth);
 
@@ -27,7 +30,8 @@ const TrackData = ({ history, location }) => {
 
   useEffect(() => {
     if (hash.access_token) {
-      login(hash.access_token);
+      const token = hash.access_token.toString();
+      login(token);
       setAuth(true);
     }
     if (authToken) {
@@ -54,7 +58,7 @@ const TrackData = ({ history, location }) => {
 
   return (
     <Container>
-      {trackData && (
+      {trackData.length > 0 && (
         <Fragment>
           <div style={{ margin: '1.5rem' }}>Modes of your top tracks:</div>
           <PieChart data={getModes(trackData)} />

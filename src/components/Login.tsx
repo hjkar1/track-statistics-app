@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import Container from './Container';
 
 const clientID = process.env.REACT_APP_CLIENT_ID;
 
 // Callback URI for redirect after login.
-const callbackURI = process.env.NODE_ENV === 'production'
+const callbackURI =
+  process.env.NODE_ENV === 'production'
     ? process.env.REACT_APP_PROD_URI
     : process.env.REACT_APP_DEV_URI;
 
@@ -18,7 +19,7 @@ const LinkButton = styled.a`
   text-decoration: none;
 `;
 
-const Login = () => {
+const Login: FC = () => {
   return (
     <Container>
       <div style={{ margin: '1rem' }}>Login with your Spotify account.</div>

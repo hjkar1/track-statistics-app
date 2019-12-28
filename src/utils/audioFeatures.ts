@@ -1,6 +1,6 @@
 // Return the modes of the tracks as data for react-vis pie chart.
 
-export const getModes = tracks => {
+export const getModes = (tracks: Array<any>) => {
   const tracksInMajor = tracks.filter(track => track.mode === 1);
   const tracksInMinor = tracks.filter(track => track.mode === 0);
   const numberOfTracksInMajor = tracksInMajor.length;
@@ -12,16 +12,18 @@ export const getModes = tracks => {
   ];
 };
 
-// Get the averages of audio features of the tracks as data for react-vis bar chart.
+const reducer = (accumulator: number, currentValue: number) =>
+  accumulator + currentValue;
 
-const reducer = (accumulator, currentValue) => accumulator + currentValue;
+const calculateAverage = (values: Array<number>) =>
+  values.reduce(reducer) / values.length;
 
-const calculateAverage = values => values.reduce(reducer) / values.length;
-
-const getTracksWithFeature = (tracks, feature) =>
+const getTracksWithFeature = (tracks: Array<any>, feature: string) =>
   tracks.map(track => track[feature]);
 
-export const getAverages = tracks => {
+// Get the averages of audio features of the tracks as data for react-vis bar chart.
+
+export const getAverages = (tracks: Array<any>) => {
   const acousticness = getTracksWithFeature(tracks, 'acousticness');
   const danceability = getTracksWithFeature(tracks, 'danceability');
   const energy = getTracksWithFeature(tracks, 'energy');
@@ -43,7 +45,7 @@ export const getAverages = tracks => {
 
 // Get the average tempo of the tracks.
 
-export const getAverageTempo = tracks => {
+export const getAverageTempo = (tracks: Array<any>) => {
   const trackTempos = getTracksWithFeature(tracks, 'tempo');
   const averageTempo = calculateAverage(trackTempos);
   return Math.round(averageTempo);

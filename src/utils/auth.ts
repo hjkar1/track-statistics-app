@@ -10,12 +10,12 @@ export const getAuthHeaderConfig = () => {
     return config;
   }
 
-  return null;
+  return;
 };
 
 export const logout = () => window.localStorage.removeItem('authToken');
 
-export const login = authToken =>
+export const login = (authToken: string) =>
   window.localStorage.setItem('authToken', authToken);
 
 export const authToken = window.localStorage.getItem('authToken');
