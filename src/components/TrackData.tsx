@@ -10,7 +10,10 @@ import Button from './ui/Button';
 import useService from '../useService';
 import { History, Location } from 'history';
 
-type Props = { history: History, location: Location };
+type Props = {
+  history: History;
+  location: Location;
+};
 
 const TrackData: FC<Props> = ({ history, location }) => {
   const [auth, setAuth] = useState(false);
