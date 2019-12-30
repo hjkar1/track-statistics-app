@@ -11,17 +11,19 @@ import '../../../node_modules/react-vis/dist/style.css';
 type Props = { data: Array<HorizontalBarSeriesPoint> };
 
 const BarChart: FC<Props> = ({ data }) => (
-  <XYPlot
-    yType="ordinal"
-    width={300}
-    height={300}
-    margin={{ left: 100 }}
-    xDomain={[0, 1]}
-  >
-    <XAxis />
-    <YAxis />
-    <HorizontalBarSeries data={data} />
-  </XYPlot>
+  <div data-testid="barchart">
+    <XYPlot
+      yType="ordinal"
+      width={300}
+      height={300}
+      margin={{ left: 100 }}
+      xDomain={[0, 1]}
+    >
+      <XAxis />
+      <YAxis />
+      <HorizontalBarSeries data={data} />
+    </XYPlot>
+  </div>
 );
 
 export default BarChart;
