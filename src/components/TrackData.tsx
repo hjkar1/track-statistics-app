@@ -49,6 +49,10 @@ const TrackData: FC<Props> = ({ history, location }) => {
     return <Container>Something went wrong :(</Container>;
   }
 
+  if (status === 'success' && trackData.length < 1) {
+    return <Container>Top track data not available.</Container>;
+  }
+
   return (
     <Container>
       {trackData.length > 0 && (
