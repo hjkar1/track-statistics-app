@@ -11,8 +11,10 @@ const getUsersTopTracks = async () => {
       config
     );
 
-    const tracks = response.data.items;
-    result = tracks.map((track: any) => track.id);
+    if (response.data.items) {
+      const tracks = response.data.items;
+      result = tracks.map((track: any) => track.id);
+    }
   } catch (error) {
     // 401 might be the result of an expired
     // token -> clear localStorage (log the user out).
