@@ -1,12 +1,13 @@
 import React from 'react';
 import { render, wait } from '@testing-library/react';
 import axios from 'axios';
+import { mocked } from 'ts-jest/utils';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import TrackData from './TrackData';
 
 jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<typeof axios>;
+const mockedAxios = mocked(axios, true);
 
 const mockTracks = {
   items: [{ id: 'test1' }, { id: 'test2' }]
