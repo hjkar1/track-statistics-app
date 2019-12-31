@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getAuthHeaderConfig, logout } from './utils/auth';
 
 const getUsersTopTracks = async () => {
-  let result = null;
+  let result;
   const config = getAuthHeaderConfig();
 
   try {
@@ -32,7 +32,7 @@ export const getAudioFeatures = async () => {
     return;
   }
 
-  let result = null;
+  let result;
   const trackIds = trackIdList.join(',');
 
   try {
