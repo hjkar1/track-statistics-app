@@ -14,7 +14,7 @@ const useService = (auth: boolean) => {
       if (result === 'error') {
         setFetchedData({ status: 'error', trackData: [] });
       } else {
-        setFetchedData({ status: 'success', trackData: result });
+        setFetchedData({ status: 'success', trackData: result || [] });
       }
     };
 
