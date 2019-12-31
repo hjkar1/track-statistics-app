@@ -11,7 +11,7 @@ const getUsersTopTracks = async () => {
       config
     );
 
-    if (response.data.items) {
+    if (response.data.items.length > 0) {
       const tracks = response.data.items;
       result = tracks.map((track: any) => track.id);
     }
@@ -42,6 +42,7 @@ export const getAudioFeatures = async () => {
       `https://api.spotify.com/v1/audio-features/?ids=${trackIds}`,
       config
     );
+
     result = response.data.audio_features;
   } catch (error) {
     // 401 might be the result of an expired
